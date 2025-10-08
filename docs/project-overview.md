@@ -16,8 +16,11 @@ The project follows a monorepo architecture with:
 ### Frontend
 
 - React 18
-- React Testing Library
-- CSS for styling
+- Material-UI (MUI) v5 - Modern component library
+- @mui/icons-material - Icon components
+- @emotion/react & @emotion/styled - CSS-in-JS styling (required by MUI)
+- React Query (TanStack Query) v5 - Data fetching and state management
+- React Testing Library - Component testing
 - ESLint for code quality
 
 ### Backend
@@ -48,14 +51,13 @@ This codebase contains **intentional bugs and incomplete implementations** desig
 
 ### Frontend Issues
 
-1. **Hardcoded API URL**: Should use relative URL or environment variable
-2. **Missing error handling**: No error state or error boundaries
-3. **No input validation**: Empty titles can be submitted
-4. **Delete not implemented**: Button exists but does nothing
-5. **Edit not implemented**: Button exists but does nothing
-6. **Stats always show 0**: Calculation not implemented
-7. **No empty state**: Doesn't show message when todo list is empty
-8. **Inefficient refetching**: Reloads entire list after toggle
+1. **Hardcoded API URL**: Should use relative URL instead of hardcoded localhost
+2. **Missing error handling**: No error handling in React Query hooks
+3. **Delete mutation incomplete**: deleteTodoMutation logs but doesn't call API
+4. **Edit not implemented**: Edit button exists but functionality missing
+5. **Stats always show 0**: Hardcoded instead of calculating from todos array
+6. **No empty state**: Doesn't show message when todos.length === 0
+7. **Missing validation**: React Query mutations need better error handling
 
 ### Test Issues
 

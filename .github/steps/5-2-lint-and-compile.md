@@ -2,139 +2,55 @@
 
 ## Goal
 
-Practice systematic code quality improvement by resolving ESLint errors and warnings. You'll learn to work through compilation/linting feedback loops with Copilot, fixing issues one category at a time.
+Systematically resolve ESLint errors and warnings using your `code-reviewer` chat mode. Work through compilation/linting feedback loops, fixing issues one category at a time.
 
 ## Background
 
 Now that your tests pass, it's time to ensure code quality. The codebase has ESLint configured with rules that catch common mistakes, unused code, and style violations. Your goal is to achieve zero lint errors across both frontend and backend.
 
+> **Continuing from Step 5-1**: You're still on the `feature/agentic-workflow` branch. Let's use your `code-reviewer` chat mode to systematically clean up the code!
+
 ## Instructions
 
-### :keyboard: Activity: Create a new branch
+> 🔄 **Fresh Start**: Before beginning, **start a new chat** (click the **+** button in Copilot Chat panel). This gives you a clean context for this step while still leveraging your project instructions and chat modes.
 
-1. :pencil2: Create a new branch called `feature/clean-code` from your `feature/tdd-backend` branch :pencil2:
+### :keyboard: Activity: Fix All Lint Errors
 
-### :keyboard: Activity: Identify lint errors
+> 💡 **How `/execute-step` works**: It reads the instructions from this GitHub Issue comment, auto-switches to `code-reviewer` mode, and executes the lint fixes autonomously. The Issue content tells it what to do!
 
-1. Run lint on the backend:
+Use `/execute-step` to autonomously resolve all ESLint errors:
 
-   ```bash
-   cd packages/backend
-   npm run lint
-   ```
+1. **Run** `/execute-step` in Copilot Chat
 
-2. You should see errors like:
+2. **Watch the AI work!** It will:
+   - Auto-switch to `code-reviewer` mode
+   - Run lint on backend (`packages/backend`)
+   - Fix errors systematically by category (unused variables → console statements → style issues)
+   - Verify tests still pass after fixes
+   - Run lint on frontend (`packages/frontend`)
+   - Fix frontend errors (unused imports, useEffect dependencies, console statements)
+   - Run full workspace lint validation
+   - Continue until zero lint errors
 
-   - Unused variables
-   - Console.log statements
-   - Missing semicolons
-   - Quote style inconsistencies
+3. **Review the changes** it made in both `packages/backend/src/app.js` and `packages/frontend/src/App.js`
 
-3. Copy the lint output to review with Copilot.
+> 💡 **What's happening?** The AI categorizes lint errors and fixes them systematically, verifying tests after each change to ensure nothing breaks. It automatically documents patterns to memory as it works!
 
-### :keyboard: Activity: Fix backend lint errors systematically
+### :keyboard: Activity: Validate and Progress
 
-1. Open **Copilot** chat and switch to your **Code Reviewer** custom chat mode.
+Now verify your work and push to trigger the next step:
 
-2. Share the lint errors with your Code Reviewer assistant:
+1. **Validate completion** using `/validate-step`
+   - Run: `/validate-step` in Copilot Chat
+   - Provide step number: `5-2`
+   - Checks that all lint errors are fixed
+   - Verifies tests still pass
 
-   ```
-   I have these ESLint errors in packages/backend/src/app.js:
-   [paste the errors]
-
-   Explain each error and suggest how to fix them appropriately.
-   ```
-
-3. Fix errors by category:
-
-   **Category 1: Unused Variables**
-
-   ```
-   Fix all unused variable errors in packages/backend/src/app.js.
-   If a variable is truly unused, remove it. If it should be used,
-   implement the proper usage.
-   ```
-
-   **Category 2: Console Statements**
-
-   ```
-   Replace console.log statements with appropriate error handling or remove them.
-   ```
-
-   **Category 3: Code Style**
-
-   ```
-   Fix any semicolon and quote style issues to match ESLint rules.
-   ```
-
-4. After each fix, verify:
-
-   ```bash
-   npm run lint
-   ```
-
-5. Ensure tests still pass:
-   ```bash
-   npm test
-   ```
-
-### :keyboard: Activity: Fix frontend lint errors
-
-1. Run lint on the frontend:
-
-   ```bash
-   cd ../frontend
-   npm run lint
-   ```
-
-2. You'll likely see errors in `src/App.js`:
-
-   - Unused imports
-   - Console.log statements
-   - Missing dependencies in useEffect
-
-3. Fix frontend errors:
-
-   ```
-   Fix all ESLint errors in packages/frontend/src/App.js.
-   Pay special attention to:
-   - Remove or use commented code appropriately
-   - Add missing useEffect dependencies
-   - Remove debug console.log statements
-   ```
-
-4. Verify frontend lint passes:
-   ```bash
-   npm run lint
-   ```
-
-### :keyboard: Activity: Run full validation
-
-1. From the repository root, run all lints:
-
-   ```bash
-   cd ../..
-   npm run lint
-   ```
-
-2. Run all tests to ensure nothing broke:
-
-   ```bash
-   npm test
-   ```
-
-3. Both should complete without errors!
-
-### :keyboard: Activity: Commit and push
-
-1. Commit your clean code:
-
-   ```bash
-   git add .
-   git commit -m "Fix all lint errors - achieve clean code"
-   ```
-
-2. :arrow_up: Push your changes to the `feature/clean-code` branch :arrow_up:
+2. **Commit and push** using `/commit-and-push`
+   - Run: `/commit-and-push` in Copilot Chat
+   - Provide branch: `feature/agentic-workflow`
+   - AI analyzes changes and creates commit message
+   - Pushes to trigger Step 5-3 workflow automatically
 
 ## Success Criteria
 
@@ -143,60 +59,20 @@ To complete this exercise successfully:
 - ✅ No ESLint errors in backend (`npm run lint` in packages/backend)
 - ✅ No ESLint errors in frontend (`npm run lint` in packages/frontend)
 - ✅ All tests still pass (`npm test` at root)
-- ✅ Changes are pushed to the `feature/clean-code` branch
+- ✅ Changes are committed and pushed to `feature/agentic-workflow` using `/commit-and-push`
 
-## Common Issues and Solutions
+## Key Workflow Patterns
 
-### Issue: "React Hook useEffect has a missing dependency"
+✨ **Systematic Error Resolution**: Categorize and fix similar issues together for efficiency
 
-**Solution**: Either add the dependency to the array, or if it causes infinite loops, use a ref or restructure your code.
+✨ **Continuous Testing**: Verify tests still pass after each fix round
 
-Ask Copilot:
+✨ **Code Quality Standards**: ESLint catches bugs and enforces consistent patterns
 
-```
-This useEffect has a missing dependency warning. How should I fix this
-without causing an infinite loop?
-```
+✨ **AI-Assisted Review**: Using `code-reviewer` mode to understand and systematically resolve quality issues
 
-### Issue: "Console statement no-console"
-
-**Solution**: Remove debug console.logs or replace with proper error handling.
-
-### Issue: Tests break after fixing lint
-
-**Solution**: You may have removed something needed. Ask Copilot:
-
-```
-After fixing lint errors, this test now fails: [paste test error]
-What did I break and how do I fix it?
-```
-
-## Workflow Pattern Learned
-
-This step teaches the **Compile-Fix-Verify** cycle:
-
-```
-1. RUN LINT    → See all errors
-2. CATEGORIZE  → Group similar errors
-3. FIX         → Fix one category at a time
-4. VERIFY      → Re-run lint
-5. TEST        → Ensure tests still pass
-6. REPEAT      → Until clean
-```
-
-## Reflection Questions
-
-1. Why is it helpful to fix lint errors by category rather than one at a time?
-2. How did running tests after lint fixes give you confidence?
-3. Did you discover any bugs while fixing lint errors?
-
-## What You Learned
-
-✨ **Code Quality Tools**: ESLint catches bugs and enforces consistency
-✨ **Systematic Debugging**: Categorize and fix errors methodically
-✨ **Continuous Validation**: Always test after changes
-✨ **Clean Code Habits**: Following linting rules improves code quality
+✨ **Workflow Automation**: Using `/validate-step` and `/commit-and-push` prompts to progress through steps
 
 ---
 
-Excellent work! Your code is now clean and tested. Next, you'll implement the frontend features incrementally.
+Wait for Step 5-3 instructions to appear in this issue...

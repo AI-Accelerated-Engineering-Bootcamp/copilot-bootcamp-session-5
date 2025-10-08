@@ -4,6 +4,22 @@
 
 This project emphasizes **Test-Driven Development (TDD)** as a core workflow pattern. Tests are not just validation tools—they're your roadmap for implementation and your safety net for refactoring.
 
+## Testing Scope
+
+This project focuses on **unit tests** and **integration tests**:
+
+- ✅ **Backend Unit Tests**: Testing individual functions and API endpoints with Jest
+- ✅ **Backend Integration Tests**: Testing API routes end-to-end with Supertest
+- ✅ **Frontend Component Tests**: Testing React components with React Testing Library
+- ✅ **Manual Browser Testing**: Verifying UI features work in real browsers
+
+We do **NOT** include:
+
+- ❌ **E2E Browser Automation**: No Playwright, Cypress, or Selenium
+- ❌ **Full Application E2E Tests**: Manual testing serves this purpose
+
+**Why this scope?** This keeps the lab focused on TDD principles and workflow automation without the complexity of e2e test infrastructure setup, flakiness management, and maintenance overhead.
+
 ## Testing Philosophy
 
 ### Tests Should Drive Development
@@ -115,16 +131,53 @@ test('should handle full CRUD lifecycle', async () => {
 
 ### Test Structure
 
-We use **React Testing Library**:
+We use **React Testing Library** with **Material-UI** components and **React Query**:
 
 ```javascript
 import { render, screen, fireEvent } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Create a test query client
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
 
 test('should render todo items', () => {
-  render(<App />);
+  const testQueryClient = createTestQueryClient();
+
+  render(
+    <QueryClientProvider client={testQueryClient}>
+      <App />
+    </QueryClientProvider>
+  );
+
   const element = screen.getByText(/expected text/i);
   expect(element).toBeInTheDocument();
 });
+```
+
+### Testing Material-UI Components
+
+MUI components work seamlessly with React Testing Library. Use semantic queries:
+
+```javascript
+// Query MUI buttons by role
+const addButton = screen.getByRole('button', { name: /add/i });
+
+// Query MUI textfields by label or placeholder
+const input = screen.getByPlaceholderText(/what needs to be done/i);
+
+// Query MUI checkboxes
+const checkbox = screen.getByRole('checkbox');
+
+// Fire events on MUI components
+fireEvent.click(addButton);
+fireEvent.change(input, { target: { value: 'New todo' } });
 ```
 
 ### Testing Principles
