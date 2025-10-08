@@ -1,0 +1,104 @@
+name: Step 5-1 # TDD Workflow
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/tdd-backend
+
+permissions:
+  contents: read
+  actions: write
+  issues: write
+
+env:
+  CURRENT_STEP: '5-1'
+  NEXT_STEP: '5-2'
+  STEP_FILE: '.github/steps/5-2-lint-and-compile.md'
+
+jobs:
+  validate_step:
+    name: Validate TDD Workflow
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run backend tests
+        id: test
+        run: |
+          cd packages/backend
+          npm test 2>&1 | tee test-output.txt
+          TEST_EXIT_CODE=${PIPESTATUS[0]}
+          echo "exit_code=$TEST_EXIT_CODE" >> $GITHUB_OUTPUT
+          exit $TEST_EXIT_CODE
+
+      - name: Check if all tests pass
+        if: steps.test.outputs.exit_code == '0'
+        run: echo "All backend tests passed!"
+
+  post_success:
+    name: Post success comment
+    needs: [validate_step]
+    if: success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get response templates
+        uses: actions/checkout@v4
+        with:
+          repository: skills/exercise-toolkit
+          path: exercise-toolkit
+          ref: v0.4.0
+
+      - name: Find open issue
+        id: find-issue
+        run: |
+          ISSUE_NUMBER=$(gh issue list --label "bootcamp-session-5" --state open --json number --jq '.[0].number')
+          echo "issue_number=$ISSUE_NUMBER" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build comment - add step content
+        id: build-comment
+        uses: skills/action-text-variables@v2
+        with:
+          template-file: ${{ env.STEP_FILE }}
+          template-vars: |
+            login: ${{ github.actor }}
+            full_repo_name: ${{ github.repository }}
+
+      - name: Post success and next step
+        run: |
+          gh issue comment ${{ steps.find-issue.outputs.issue_number }} \
+            --body "✅ **Step ${{ env.CURRENT_STEP }} Complete!** All backend tests are passing. Great work on the TDD workflow!
+
+          $NEXT_STEP_CONTENT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT_STEP_CONTENT: ${{ steps.build-comment.outputs.updated-text }}
+
+      - name: Disable current workflow
+        run: gh workflow disable "Step ${{ env.CURRENT_STEP }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable next workflow
+        run: gh workflow enable "Step ${{ env.NEXT_STEP }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
