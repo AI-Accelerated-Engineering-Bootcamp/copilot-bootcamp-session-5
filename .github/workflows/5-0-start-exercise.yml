@@ -12,7 +12,7 @@ permissions:
   issues: write
 
 env:
-  STEP_5_FILE: '.github/steps/5-0-setup-chat-modes.md'
+  STEP_5_FILE: '.github/steps/5-0-setup-workflow.md'
 
 jobs:
   start_exercise:
@@ -21,8 +21,8 @@ jobs:
     name: Start Exercise
     uses: skills/exercise-toolkit/.github/workflows/start-exercise.yml@v0.4.0
     with:
-      exercise-title: 'AI Coding Assistant Enablement Bootcamp Session 5'
-      intro-message: "Welcome to Session 5: Agentic Development! 🚀 In this session, you'll practice iterative AI-assisted workflows including Test-Driven Development, systematic error resolution, and incremental feature implementation. First, you'll create custom Copilot chat modes tailored for TDD and code review - your AI pair programming partners! Then you'll use these modes to build reliable, tested code through systematic iteration. Let's get started! 💻✨"
+      exercise-title: "AI Coding Assistant Enablement Bootcamp Session 5"
+      intro-message: "Welcome to Session 5 - Agentic Development! In this session you will practice iterative AI-assisted workflows including TDD, linting, and incremental implementation."
 
   post_next_step_content:
     name: Post next step content

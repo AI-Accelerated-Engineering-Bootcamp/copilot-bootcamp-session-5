@@ -2,284 +2,142 @@
 
 ## Goal
 
-Practice incremental feature implementation by completing the frontend functionality. You'll learn to plan, build step-by-step, test continuously, and integrate with confidence.
+Complete the frontend functionality using incremental feature implementation. Plan, build step-by-step, test continuously, and integrate with confidence using your custom chat modes.
 
 ## Background
 
-The frontend has several incomplete or buggy features:
+The frontend is built with **Material-UI (MUI)** components and **React Query** for API state management, giving it a modern, professional look and feel. However, several features are incomplete or buggy:
 
-- Delete functionality doesn't work
-- Edit functionality is not implemented
-- Stats always show 0
-- No empty state message
-- API URL is hardcoded
-- No error handling
+- Delete functionality doesn't work (mutation not implemented)
+- Edit functionality needs to be implemented
+- Stats always show 0 (need to calculate from todos array)
+- No empty state message when todos.length === 0
+- API URL is hardcoded (should use relative URL)
+- No error handling in React Query
+
+**Tech Stack Used**:
+
+- **Material-UI (MUI)**: Modern React component library for UI
+- **React Query**: Data fetching and state management for API calls
+- **MUI Components**: Container, Card, TextField, Button, Checkbox, IconButton, Chip, etc.
+- **React Query Hooks**: useQuery for fetching, useMutation for creating/updating/deleting
 
 Your goal is to complete these features incrementally, testing each before moving to the next.
 
+> **Continuing from Step 5-2**: You're still on the `feature/agentic-workflow` branch with all backend tests passing and lint errors fixed. Now, let's complete the frontend implementation incrementally, testing as we go.
+
 ## Instructions
 
-### :keyboard: Activity: Create a new branch
+> 🔄 **Fresh Start**: Before beginning, **start a new chat** (click the **+** button in Copilot Chat panel). This gives you a clean context for this step while still leveraging your project instructions and chat modes.
 
-1. :pencil2: Create a new branch called `feature/frontend-implementation` from your `feature/clean-code` branch :pencil2:
+### :keyboard: Activity: Complete Frontend Implementation
 
-### :keyboard: Activity: Plan your implementation
+> 💡 **How `/execute-step` works**: It reads the instructions from this GitHub Issue comment (including the Background section above that lists incomplete features), auto-switches to `tdd-developer` mode, and implements each feature incrementally. The documented requirements become the execution plan!
 
-1. Open **Copilot** chat and switch to your **TDD Developer** mode (best for planning and implementation).
+> 🧪 **TDD Approach for Frontend Features**: The AI should write **React Testing Library tests FIRST** for component logic (rendering, user interactions, state changes), then implement the features. This is true Test-Driven Development! The workflow:
+>
+> - **RED**: Write a React Testing Library test that fails (feature doesn't exist yet)
+> - **GREEN**: Implement the feature to make the test pass
+> - **REFACTOR**: Clean up the code while keeping tests green
+> - **Verify manually**: Check it works in the browser (full integration)
+>
+> This is realistic! React Testing Library is the standard for testing React components. We skip e2e frameworks (Playwright, Cypress) to keep the lab focused on TDD principles without e2e complexity.
 
-2. Ask your assistant to create an implementation plan:
+Use `/execute-step` to autonomously implement all frontend features:
 
-   ```
-   I need to complete the frontend TODO app in packages/frontend/src/App.js.
-   Review the code and create a step-by-step implementation plan for:
-   1. Implementing the delete functionality
-   2. Fixing the stats calculation (currently shows 0)
-   3. Adding an empty state message
-   4. Improving error handling
+1. **Run** `/execute-step` in Copilot Chat
 
-   Create a prioritized plan with testing checkpoints.
-   ```
+2. **Watch the AI work!** It will:
+   - Auto-switch to `tdd-developer` mode
+   - Navigate to `packages/frontend/src/App.test.js` (or create it)
+   - **Write React Testing Library tests FIRST** for each feature (RED phase):
+     - Test delete functionality
+     - Test stats calculation
+     - Test empty state rendering
+     - Test error handling
+   - Watch tests fail (RED ✓)
+   - Navigate to `packages/frontend/src/App.js`
+   - Implement features to make tests pass (GREEN phase)
+   - Refactor code while keeping tests green (REFACTOR phase)
+   - Run lint to verify code quality
 
-3. Review the plan with Copilot and make sure you understand each step.
+3. **Review the changes** it made in `packages/frontend/src/App.js`
 
-### :keyboard: Activity: Implement feature 1 - Delete functionality
+4. **Test manually** in the browser:
 
-1. Start the application to test as you go:
+   **Start both frontend and backend**:
+   - In the terminal, run: `npm start` (from root directory)
+   - This starts both the backend (port 3001) and frontend (port 3000) simultaneously
+   - Wait for both to start (you'll see "Server running on port 3001" and "webpack compiled successfully")
 
-   ```bash
-   npm run start
-   ```
+   **Access the application**:
+   - **Important**: When both servers start, you may only see one notification - often for port 3001 (the API)
+   - **To access the frontend**: Click the **"Ports"** tab at the bottom of VS Code (next to the terminal tab)
+   - Find port **3000** in the list (the frontend)
+   - Click the **globe icon** (🌐) next to port 3000 to open in browser
+   - You should see the TODO application in your browser
 
-2. The app should open in your browser (usually port 3000).
+   > 💡 **Tip**: Port 3001 (backend) shows `Cannot GET /` if opened - that's expected! The backend is an API server, not a web app. Always use port 3000 for the frontend UI.
 
-3. Ask Copilot to implement delete:
+   **Test all features**:
+   - Create new todos
+   - Mark todos as complete
+   - Delete todos (test the delete button)
+   - Edit a todo and save
+   - Verify stats update correctly (incomplete and completed counts)
+   - Delete all todos to see empty state message
 
-   ```
-   Implement the handleDeleteTodo function in packages/frontend/src/App.js.
-   It should:
-   - Call the DELETE /api/todos/:id endpoint
-   - Remove the todo from state on success
-   - Handle errors gracefully
-   ```
+   **Test error handling**:
+   - Stop the backend: Press `Ctrl+C` in terminal, then restart only frontend: `npm run start:frontend`
+   - Refresh the browser - you should see error handling UI
+   - Stop the frontend (`Ctrl+C`) when done testing
 
-4. Test manually:
+> 💡 **What's happening?** The AI uses incremental development: Plan → Build → Test → Fix for each feature, ensuring each works before moving to the next. It automatically documents patterns (React Query, MUI, error handling) to memory as it discovers them!
 
-   - Create a few todos
-   - Click Delete on one
-   - Verify it disappears
-   - Check browser console for errors
+> 💡 **Pattern library**: AI naturally builds a library of frontend patterns that it can reference and apply in future development work - check `.github/memory/patterns-discovered.md` after this step!
 
-5. If it doesn't work, debug with Copilot:
+### :keyboard: Activity: Validate and Progress
 
-   ```
-   When I click delete, [describe what happens]. Here's my implementation:
-   [paste code]
-   What's wrong?
-   ```
+Now verify your work and push to trigger the next step:
 
-6. Once working, commit:
-   ```bash
-   git add packages/frontend/src/App.js
-   git commit -m "Implement delete functionality"
-   ```
+1. **Validate completion** using `/validate-step`
+   - Run: `/validate-step` in Copilot Chat
+   - Provide step number: `5-3`
+   - Checks that all features work
+   - Verifies tests pass and no lint errors
 
-### :keyboard: Activity: Implement feature 2 - Fix stats calculation
-
-1. Ask Copilot:
-
-   ```
-   The todo stats at the bottom always show 0. Fix the calculation to show:
-   - Number of incomplete items ("X items left")
-   - Number of completed items ("X completed")
-   ```
-
-2. Test in the browser:
-
-   - Create several todos
-   - Mark some as complete
-   - Verify stats update correctly
-
-3. Commit when working:
-   ```bash
-   git add packages/frontend/src/App.js
-   git commit -m "Fix stats calculation"
-   ```
-
-### :keyboard: Activity: Implement feature 3 - Empty state message
-
-1. Ask Copilot:
-
-   ```
-   Add an empty state message when there are no todos.
-   Show a friendly message like "No todos yet! Add one above to get started."
-   ```
-
-2. Test:
-
-   - Delete all todos
-   - Verify message appears
-   - Add a todo
-   - Verify message disappears
-
-3. Commit:
-   ```bash
-   git add packages/frontend/src/App.js
-   git commit -m "Add empty state message"
-   ```
-
-### :keyboard: Activity: Implement feature 4 - Error handling
-
-1. Add error handling:
-
-   ```
-   Add proper error handling to App.js:
-   1. Add an error state variable
-   2. Catch errors in fetchTodos, handleAddTodo, handleDeleteTodo
-   3. Display error messages to the user
-   4. Add a way to dismiss errors
-   ```
-
-2. Test error scenarios:
-
-   - Stop the backend (Ctrl+C in its terminal)
-   - Try to add a todo
-   - Verify error message appears
-   - Restart backend
-   - Try again and verify it works
-
-3. Commit:
-   ```bash
-   git add packages/frontend/src/App.js
-   git commit -m "Add error handling"
-   ```
-
-### :keyboard: Activity: Bonus features (Optional)
-
-If you're making good progress, try these:
-
-**A. Implement Edit Functionality**
-
-```
-Add the ability to edit todo titles:
-1. Add an edit mode state
-2. Show input field when editing
-3. Call PUT endpoint to save
-4. Exit edit mode after save
-```
-
-**B. Add Input Validation**
-
-```
-Prevent adding empty todos:
-1. Disable submit button if input is empty
-2. Show validation message
-3. Trim whitespace from input
-```
-
-**C. Add Loading States**
-
-```
-Show loading indicators during API calls to improve UX
-```
-
-### :keyboard: Activity: Final validation
-
-1. Run all tests:
-
-   ```bash
-   npm test
-   ```
-
-2. Run all lints:
-
-   ```bash
-   npm run lint
-   ```
-
-3. Test the full application manually:
-
-   - Create todos
-   - Mark as complete/incomplete
-   - Delete todos
-   - Check stats update
-   - Verify empty state
-   - Test error handling (stop backend and try operations)
-
-4. Everything should work smoothly!
-
-5. :arrow_up: Push your changes to the `feature/frontend-implementation` branch :arrow_up:
+2. **Commit and push** using `/commit-and-push`
+   - Run: `/commit-and-push` in Copilot Chat
+   - Provide branch: `feature/agentic-workflow`
+   - AI analyzes changes and creates commit message
+   - Pushes to trigger Step 5-4 workflow automatically
 
 ## Success Criteria
 
 To complete this exercise successfully:
 
 - ✅ Delete functionality works
-- ✅ Stats show correct numbers
+- ✅ Stats show correct numbers (incomplete and completed counts)
 - ✅ Empty state message displays when no todos
-- ✅ All tests pass
-- ✅ No lint errors
-- ✅ Changes are pushed to the `feature/frontend-implementation` branch
+- ✅ Error handling provides user feedback
+- ✅ All tests pass (`npm test`)
+- ✅ No lint errors (`npm run lint`)
+- ✅ Changes are committed and pushed to `feature/agentic-workflow` using `/commit-and-push`
 
-## Workflow Pattern Learned
+## Key Workflow Patterns
 
-This step teaches the **Plan-Build-Test-Fix** cycle:
+✨ **Incremental Development**: Build features one at a time with continuous testing
 
-```
-1. PLAN      → Break feature into steps
-2. BUILD     → Implement one step
-3. TEST      → Verify manually and with tests
-4. FIX       → Debug any issues
-5. COMMIT    → Save working code
-6. REPEAT    → Next step
-```
+✨ **Plan-Build-Test-Fix Cycle**: Break down features → implement → verify → debug → repeat
 
-## Common Issues and Solutions
+✨ **Continuous Testing**: Manual browser testing + automated tests catch issues early
 
-### Issue: Delete doesn't remove todo from UI
+✨ **Error Handling**: Graceful error states and user feedback improve UX
 
-**Possible causes**:
+✨ **AI-Assisted Implementation**: Using `tdd-developer` mode for systematic feature building
 
-- Not updating state after successful delete
-- Using wrong ID format
-- API call failing silently
-
-**Debug with Copilot**:
-
-```
-My delete function calls the API but the todo doesn't disappear.
-Here's my code: [paste code]
-What's wrong?
-```
-
-### Issue: Stats don't update
-
-**Possible causes**:
-
-- Using hardcoded 0 instead of calculation
-- Wrong filter logic
-- Not recalculating on state change
-
-**Debug with Copilot**:
-
-```
-Show me how to calculate stats from the todos array.
-I need count of incomplete and completed items.
-```
-
-## Reflection Questions
-
-1. How did implementing features incrementally help you?
-2. What was the value of testing each feature before moving to the next?
-3. How did manual testing complement automated tests?
-4. Did you find bugs by testing in the browser that you wouldn't have found otherwise?
-
-## What You Learned
-
-✨ **Incremental Development**: Small, testable steps beat big bang implementations
-✨ **Continuous Testing**: Manual + automated testing catches issues early
-✨ **Integration Validation**: Testing in the real environment reveals integration issues
-✨ **Error Handling**: Graceful error handling improves user experience
+✨ **Workflow Automation**: Using `/validate-step` and `/commit-and-push` prompts to progress through steps
 
 ---
 
-Congratulations! You've completed all the core features using agentic workflows. Check out the review step for a summary.
+Wait for the review step to appear below...

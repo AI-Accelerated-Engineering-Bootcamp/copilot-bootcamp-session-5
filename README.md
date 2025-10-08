@@ -18,24 +18,32 @@ You'll learn to work with AI as a collaborative agent in continuous feedback loo
 
 ## Quick Start (Skill Lab)
 
-1. Fork this repository to your own GitHub account.
-2. After the fork finishes, open the Actions tab in your fork - a GitHub Actions workflow should start automatically.
-3. When the workflow completes, a GitHub Issue will be created in your fork to guide the next steps of the lab.
+1. **Fork this repository** to your own GitHub account.
+2. **Enable and run the workflow**:
+   - After the fork finishes, navigate to the **Actions** tab in your forked repository
+   - Find the workflow named **"Step 5-0"** in the left sidebar
+   - Click the **"Run workflow"** button (top right)
+   - Select the `main` branch and click **"Run workflow"**
+3. **Wait for the Issue**: When the workflow completes, a GitHub Issue will be created in your fork with instructions to begin the lab.
 
-That's it. The lab automation (workflow + seeded issue) is the only thing you need to verify to begin.
+That's it! The lab automation (workflow + seeded issue) guides you through the rest.
 
-## If Something Doesn't Happen
+## Troubleshooting
 
-If you do NOT see a workflow run within ~30 seconds of forking:
+**If you don't see the "Step 5-0" workflow:**
 
-- Refresh the Actions tab once
-- Ensure Actions are enabled for your fork (Repository Settings > Actions)
-- Manually trigger any visible workflow if it shows a "Run workflow" button
+- Ensure Actions are enabled: Repository Settings > Actions > Allow all actions
+- Refresh the Actions tab
 
-If the expected Issue wasn't created after the workflow succeeds:
+**If the workflow fails:**
 
-- Open the workflow run log and look for any failed steps
-- Re-run the workflow (top-right "Re-run jobs")
+- Open the workflow run log to check for errors
+- Click "Re-run jobs" (top-right) to try again
+
+**If no Issue appears after workflow succeeds:**
+
+- Check the workflow logs for the "Post Issue" step
+- Verify you have Issues enabled: Repository Settings > General > Features > Issues
 
 ## Next Steps After Automation
 

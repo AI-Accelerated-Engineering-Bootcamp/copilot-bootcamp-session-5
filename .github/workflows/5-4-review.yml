@@ -1,4 +1,4 @@
-name: Step 5-3
+name: Step 5-4
 
 on:
   workflow_dispatch:
@@ -12,17 +12,16 @@ permissions:
   issues: write
 
 env:
-  CURRENT_STEP: '5-3'
-  NEXT_STEP: '5-4'
-  STEP_FILE: '.github/steps/5-3-incremental-implementation.md'
+  CURRENT_STEP: '5-4'
+  STEP_FILE: '.github/steps/5-4-review.md'
 
 jobs:
   find_exercise:
     name: Find Exercise Issue
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.4.0
 
-  post_next_step:
-    name: Post next step
+  post_review:
+    name: Post review and completion
     needs: find_exercise
     runs-on: ubuntu-latest
     env:
@@ -41,7 +40,7 @@ jobs:
             login: ${{ github.actor }}
             full_repo_name: ${{ github.repository }}
 
-      - name: Post next step content
+      - name: Post completion and review
         run: |
           gh issue comment "$ISSUE_URL" --body "---
 
@@ -51,13 +50,6 @@ jobs:
           STEP_CONTENT: ${{ steps.build-comment.outputs.updated-text }}
 
       - name: Disable current workflow
-        run: |
-          gh workflow disable "Step ${{ env.CURRENT_STEP }}" || echo "Failed to disable Step ${{ env.CURRENT_STEP }} or it's already disabled"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Enable next workflow
-        run: |
-          gh workflow enable "Step ${{ env.NEXT_STEP }}" || echo "Failed to enable Step ${{ env.NEXT_STEP }} or it's already enabled"
+        run: gh workflow disable "Step ${{ env.CURRENT_STEP }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
