@@ -1,0 +1,107 @@
+name: Step 5-2 # Lint and Compile
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/clean-code
+
+permissions:
+  contents: read
+  actions: write
+  issues: write
+
+env:
+  CURRENT_STEP: '5-2'
+  NEXT_STEP: '5-3'
+  STEP_FILE: '.github/steps/5-3-incremental-implementation.md'
+
+jobs:
+  validate_step:
+    name: Validate Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run backend lint
+        id: lint-backend
+        run: |
+          cd packages/backend
+          npm run lint
+          echo "Backend lint passed"
+
+      - name: Run frontend lint
+        id: lint-frontend
+        run: |
+          cd packages/frontend
+          npm run lint
+          echo "Frontend lint passed"
+
+      - name: Run all tests
+        id: test
+        run: npm test
+
+  post_success:
+    name: Post success comment
+    needs: [validate_step]
+    if: success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get response templates
+        uses: actions/checkout@v4
+        with:
+          repository: skills/exercise-toolkit
+          path: exercise-toolkit
+          ref: v0.4.0
+
+      - name: Find open issue
+        id: find-issue
+        run: |
+          ISSUE_NUMBER=$(gh issue list --label "bootcamp-session-5" --state open --json number --jq '.[0].number')
+          echo "issue_number=$ISSUE_NUMBER" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build comment - add step content
+        id: build-comment
+        uses: skills/action-text-variables@v2
+        with:
+          template-file: ${{ env.STEP_FILE }}
+          template-vars: |
+            login: ${{ github.actor }}
+            full_repo_name: ${{ github.repository }}
+
+      - name: Post success and next step
+        run: |
+          gh issue comment ${{ steps.find-issue.outputs.issue_number }} \
+            --body "✅ **Step ${{ env.CURRENT_STEP }} Complete!** No lint errors and all tests passing. Your code is clean!
+
+          $NEXT_STEP_CONTENT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT_STEP_CONTENT: ${{ steps.build-comment.outputs.updated-text }}
+
+      - name: Disable current workflow
+        run: gh workflow disable "Step ${{ env.CURRENT_STEP }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable next workflow
+        run: gh workflow enable "Step ${{ env.NEXT_STEP }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

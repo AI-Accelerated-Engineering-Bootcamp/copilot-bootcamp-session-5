@@ -1,0 +1,111 @@
+name: Step 5-3 # Incremental Implementation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/frontend-implementation
+
+permissions:
+  contents: read
+  actions: write
+  issues: write
+
+env:
+  CURRENT_STEP: '5-3'
+  NEXT_STEP: '5-x'
+  STEP_FILE: '.github/steps/5-x-review.md'
+
+jobs:
+  validate_step:
+    name: Validate Frontend Implementation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check delete functionality exists
+        id: check-delete
+        run: |
+          if grep -q "method.*DELETE" packages/frontend/src/App.js; then
+            echo "Delete functionality found"
+          else
+            echo "Delete functionality not found"
+            exit 1
+          fi
+
+      - name: Check stats calculation exists
+        id: check-stats
+        run: |
+          if grep -q "filter.*completed.*false" packages/frontend/src/App.js || \
+             grep -q "reduce" packages/frontend/src/App.js; then
+            echo "Stats calculation found"
+          else
+            echo "Stats calculation not properly implemented"
+            exit 1
+          fi
+
+      - name: Run all tests
+        run: npm test
+
+      - name: Run lint
+        run: npm run lint
+
+  post_success:
+    name: Post success comment
+    needs: [validate_step]
+    if: success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get response templates
+        uses: actions/checkout@v4
+        with:
+          repository: skills/exercise-toolkit
+          path: exercise-toolkit
+          ref: v0.4.0
+
+      - name: Find open issue
+        id: find-issue
+        run: |
+          ISSUE_NUMBER=$(gh issue list --label "bootcamp-session-5" --state open --json number --jq '.[0].number')
+          echo "issue_number=$ISSUE_NUMBER" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build comment - add step content
+        id: build-comment
+        uses: skills/action-text-variables@v2
+        with:
+          template-file: ${{ env.STEP_FILE }}
+          template-vars: |
+            login: ${{ github.actor }}
+            full_repo_name: ${{ github.repository }}
+
+      - name: Post success and review
+        run: |
+          gh issue comment ${{ steps.find-issue.outputs.issue_number }} \
+            --body "✅ **Step ${{ env.CURRENT_STEP }} Complete!** Frontend implementation looks great!
+
+          $REVIEW_CONTENT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REVIEW_CONTENT: ${{ steps.build-comment.outputs.updated-text }}
+
+      - name: Disable current workflow
+        run: gh workflow disable "Step ${{ env.CURRENT_STEP }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
