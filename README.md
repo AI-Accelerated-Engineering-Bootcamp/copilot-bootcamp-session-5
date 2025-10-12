@@ -18,15 +18,12 @@ You'll learn to work with AI as a collaborative agent in continuous feedback loo
 
 ## Quick Start (Skill Lab)
 
-1. **Fork this repository** to your own GitHub account.
-2. **Enable and run the workflow**:
-   - After the fork finishes, navigate to the **Actions** tab in your forked repository
-   - Find the workflow named **"Step 5-0"** in the left sidebar
-   - Click the **"Run workflow"** button (top right)
-   - Select the `main` branch and click **"Run workflow"**
-3. **Wait for the Issue**: When the workflow completes, a GitHub Issue will be created in your fork with instructions to begin the lab.
+1. Click **Use this template**.
+2. Select **Create a new repository**.
+3. Once created, open the Actions tab in your new repository - a GitHub Actions workflow labeled "Step 5-0" should start automatically.
+4. When the workflow completes, a GitHub Issue will be created in your new repository to guide the next steps of the lab.
 
-That's it! The lab automation (workflow + seeded issue) guides you through the rest.
+That's it. The lab automation (workflow + seeded issue) is the only thing you need to verify to begin.
 
 ## Troubleshooting
 
@@ -68,4 +65,4 @@ Once the Issue appears, follow its guidance to work through the exercise. You'll
 
 ---
 
-> 🎉 Happy hacking – fork, watch the workflow, find the Issue, and practice agentic workflows with Copilot.
+> 🎉 Happy hacking – use template, watch the workflow, find the Issue, and practice agentic workflows with Copilot.
