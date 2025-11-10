@@ -10,6 +10,7 @@ permissions:
   contents: read
   actions: write
   issues: write
+  id-token: write
 
 env:
   CURRENT_STEP: '5-4'
@@ -53,3 +54,9 @@ jobs:
         run: gh workflow disable "Step ${{ env.CURRENT_STEP }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  call-scoreboard-completion:
+    name: Call Scoreboard Completion
+    needs: [check_step_work]
+    if: success()
+    uses: ./.github/workflows/scoreboard-post-completion.yml
