@@ -57,6 +57,6 @@ jobs:
 
   call-scoreboard-completion:
     name: Call Scoreboard Completion
-    needs: [check_step_work]
+    needs: [post_review]
     if: success()
     uses: ./.github/workflows/scoreboard-post-completion.yml
