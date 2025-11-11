@@ -14,6 +14,28 @@ Now that your tests pass, it's time to ensure code quality. The codebase has ESL
 
 > 🔄 **Fresh Start**: Before beginning, **start a new chat** (click the **+** button in Copilot Chat panel). This gives you a clean context for this step while still leveraging your project instructions and chat modes.
 
+### :keyboard: Activity: Verify Lint Errors Exist
+
+Before fixing, let's confirm there are lint errors to address:
+
+1. In terminal, run:
+
+   ```bash
+   cd packages/backend && npm run lint
+   ```
+
+2. You should see errors/warnings like:
+   - `no-console` warnings for console.log statements
+   - `no-unused-vars` errors for unused variables
+
+**If you see NO lint errors**: This is unusual - they should exist from Step 5-1. Verify:
+
+- You're on the correct branch (`feature/agentic-workflow`)
+- Step 5-1 focused only on test fixes, not lint cleanup
+- If lint was already fixed, that's okay - the scope boundary training still happened. Proceed to validate and move to Step 5-3.
+
+**If you see lint errors**: Perfect! Let's fix them systematically. 👇
+
 ### :keyboard: Activity: Fix All Lint Errors
 
 > 💡 **How `/execute-step` works**: It reads the instructions from this GitHub Issue comment, auto-switches to `code-reviewer` mode, and executes the lint fixes autonomously. The Issue content tells it what to do!

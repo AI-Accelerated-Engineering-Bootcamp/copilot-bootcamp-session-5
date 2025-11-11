@@ -266,6 +266,11 @@ Now create a specialized mode for test-driven development workflows.
    - Suggest minimal code changes to make tests pass (GREEN phase)
    - Refactor after tests pass (REFACTOR phase)
    - Run tests to verify the fix
+   - **CRITICAL SCOPE BOUNDARY**: In this scenario, ONLY fix code to make tests pass
+   - **DO NOT fix linting errors** (no-console, no-unused-vars, etc.) unless they cause test failures
+   - **DO NOT remove console.log statements** that are not breaking tests
+   - **DO NOT fix unused variables** unless they prevent tests from passing
+   - Linting is a separate workflow that will be addressed in dedicated lint resolution steps
 
    **General TDD Principles (Both Scenarios)**
    - **PRIMARY RULE**: Test first, code second - never reverse this order for new features

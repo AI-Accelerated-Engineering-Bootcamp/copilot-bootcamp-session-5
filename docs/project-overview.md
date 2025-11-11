@@ -47,7 +47,7 @@ This codebase contains **intentional bugs and incomplete implementations** desig
 3. **Incomplete endpoints**: POST, PUT, DELETE endpoints not implemented
 4. **Toggle bug**: PATCH endpoint always sets completed to `true` instead of toggling
 5. **Missing error handling**: No centralized error handling middleware
-6. **Eslint violations**: Unused variables and console.log statements
+6. **ESLint violations** (marked with comments): Unused variables and console.log statements intentionally left for Step 5-2 linting exercise
 
 ### Frontend Issues
 

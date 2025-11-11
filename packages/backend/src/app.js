@@ -15,6 +15,9 @@ let todos = null;
 // INTENTIONAL ISSUE: Missing counter for ID generation
 // let nextId = 1;
 
+// INTENTIONAL LINT VIOLATION (for Step 5-2): Unused variable should be removed or used
+const unusedDebugFlag = true;  // eslint-disable-line no-unused-vars -- INTENTIONAL for Step 5-2
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
