@@ -17,13 +17,48 @@ env:
   STEP_FILE: '.github/steps/5-3-incremental-implementation.md'
 
 jobs:
+  validate_step:
+    name: Validate Tests and Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run all tests
+        id: test
+        run: npm test
+
+      - name: Run backend lint
+        id: lint-backend
+        run: |
+          cd packages/backend
+          npm run lint
+          echo "Backend lint passed"
+
+      - name: Run frontend lint
+        id: lint-frontend
+        run: |
+          cd packages/frontend
+          npm run lint
+          echo "Frontend lint passed"
+
   find_exercise:
     name: Find Exercise Issue
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.4.0
 
   post_next_step:
     name: Post next step
-    needs: find_exercise
+    needs: [validate_step, find_exercise]
     runs-on: ubuntu-latest
     env:
       ISSUE_URL: ${{ needs.find_exercise.outputs.issue-url }}

@@ -18,7 +18,7 @@ env:
 
 jobs:
   validate_step:
-    name: Validate Code Quality
+    name: Validate Tests Pass
     runs-on: ubuntu-latest
 
     steps:
@@ -33,20 +33,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Run backend lint
-        id: lint-backend
-        run: |
-          cd packages/backend
-          npm run lint
-          echo "Backend lint passed"
-
-      - name: Run frontend lint
-        id: lint-frontend
-        run: |
-          cd packages/frontend
-          npm run lint
-          echo "Frontend lint passed"
 
       - name: Run all tests
         id: test
@@ -86,7 +72,7 @@ jobs:
 
       - name: Post success and next step
         run: |
-          gh issue comment "$ISSUE_URL" --body "✅ **Step ${{ env.CURRENT_STEP }} Complete!** No lint errors and all tests passing. Your code is clean!
+          gh issue comment "$ISSUE_URL" --body "✅ **Step ${{ env.CURRENT_STEP }} Complete!** All tests passing. Now let's clean up the code quality!
 
           $STEP_CONTENT"
         env:
