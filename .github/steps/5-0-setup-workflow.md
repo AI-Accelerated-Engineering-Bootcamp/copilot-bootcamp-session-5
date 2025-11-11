@@ -293,7 +293,7 @@ Now create a specialized mode for test-driven development workflows.
 
    Available tools: codebase, search, problems, editFiles, runCommands, getTerminalOutput, testFailure
 
-   Preferred model: Claude Sonnet 4.5 (Preview) (copilot)
+   Preferred model: Claude Sonnet 4.5 (copilot)
 
    Format as a .chatmode.md file ready to save in .github/chatmodes/
    ```
@@ -324,7 +324,7 @@ Create a specialized mode for code quality and linting workflows.
 
    Available tools: codebase, search, problems, editFiles, runCommands, getTerminalOutput
 
-   Preferred model: Claude Sonnet 4.5 (Preview) (copilot)
+   Preferred model: Claude Sonnet 4.5 (copilot)
 
    Format as a .chatmode.md file ready to save in .github/chatmodes/
    ```
