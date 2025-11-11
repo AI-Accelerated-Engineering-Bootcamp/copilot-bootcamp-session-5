@@ -34,6 +34,16 @@ Use `/execute-step` to autonomously fix the failing backend tests:
    - Run tests after each fix to verify
    - Continue until all tests pass
 
+   **IMPORTANT - Scope Boundary**:
+   This step focuses ONLY on making tests pass. The AI should:
+   - ✅ Fix code to make failing tests pass
+   - ✅ Verify tests pass after each fix
+   - ❌ DO NOT fix ESLint warnings or errors (those are for Step 5-2)
+   - ❌ DO NOT remove console.log statements
+   - ❌ DO NOT fix unused variables unless they break tests
+   
+   Code quality issues will be addressed systematically in Step 5-2!
+
 3. **Review the changes** it made
 
 > 💡 **What's happening?** The AI uses TDD Red-Green-Refactor cycles: run tests (Red) → fix code (Green) → verify (Refactor). As it works, it automatically documents patterns to `.github/memory/patterns-discovered.md` - no separate step needed!

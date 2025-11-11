@@ -30,6 +30,19 @@ We do **NOT** include:
 4. **Refactor** to improve quality
 5. **Repeat** with the next test
 
+### TDD Workflow Scope Boundaries
+
+When fixing failing tests (TDD Scenario 2):
+
+- ✅ **DO**: Fix code to make tests pass
+- ✅ **DO**: Run tests after each change
+- ✅ **DO**: Refactor code while keeping tests green
+- ❌ **DO NOT**: Fix ESLint errors unless they prevent tests from passing
+- ❌ **DO NOT**: Remove console.log statements that aren't breaking tests
+- ❌ **DO NOT**: Fix unused variables unless they cause test failures
+
+**Why?** Linting is a separate quality workflow (Step 5-2). Keeping workflows separate teaches proper separation of concerns and systematic problem-solving.
+
 ### Tests Provide Specification
 
 Each test describes:
