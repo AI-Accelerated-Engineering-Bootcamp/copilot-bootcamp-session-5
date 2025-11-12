@@ -24,7 +24,7 @@ The backend has **comprehensive tests that currently fail** because the implemen
 
 Use `/execute-step` to autonomously fix the failing backend tests:
 
-1. **Run** `/execute-step` in Copilot Chat
+1. **Run** `/execute-step 5-1` in Copilot Chat
 
 2. **Watch the AI work!** It will:
    - Auto-switch to `tdd-developer` mode
@@ -41,7 +41,7 @@ Use `/execute-step` to autonomously fix the failing backend tests:
    - ❌ DO NOT fix ESLint warnings or errors (those are for Step 5-2)
    - ❌ DO NOT remove console.log statements
    - ❌ DO NOT fix unused variables unless they break tests
-   
+
    Code quality issues will be addressed systematically in Step 5-2!
 
 3. **Review the changes** it made
@@ -53,8 +53,7 @@ Use `/execute-step` to autonomously fix the failing backend tests:
 Now verify your work and push to trigger the next step:
 
 1. **Validate completion** using `/validate-step`
-   - Run: `/validate-step` in Copilot Chat
-   - Provide step number: `5-1`
+   - Run: `/validate-step 5-1` in Copilot Chat
    - Checks that all tests pass
    - Verifies changes are ready to commit
 

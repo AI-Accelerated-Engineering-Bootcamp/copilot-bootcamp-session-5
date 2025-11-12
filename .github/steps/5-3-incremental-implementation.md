@@ -45,7 +45,7 @@ Your goal is to complete these features incrementally, testing each before movin
 
 Use `/execute-step` to autonomously implement all frontend features:
 
-1. **Run** `/execute-step` in Copilot Chat
+1. **Run** `/execute-step 5-3` in Copilot Chat
 
 2. **Watch the AI work!** It will:
    - Auto-switch to `tdd-developer` mode
@@ -101,8 +101,7 @@ Use `/execute-step` to autonomously implement all frontend features:
 Now verify your work and push to trigger the next step:
 
 1. **Validate completion** using `/validate-step`
-   - Run: `/validate-step` in Copilot Chat
-   - Provide step number: `5-3`
+   - Run: `/validate-step 5-3` in Copilot Chat
    - Checks that all features work
    - Verifies tests pass and no lint errors
 

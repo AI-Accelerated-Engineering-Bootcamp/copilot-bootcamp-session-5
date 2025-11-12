@@ -42,7 +42,7 @@ Before fixing, let's confirm there are lint errors to address:
 
 Use `/execute-step` to autonomously resolve all ESLint errors:
 
-1. **Run** `/execute-step` in Copilot Chat
+1. **Run** `/execute-step 5-2` in Copilot Chat
 
 2. **Watch the AI work!** It will:
    - Auto-switch to `code-reviewer` mode
@@ -63,8 +63,7 @@ Use `/execute-step` to autonomously resolve all ESLint errors:
 Now verify your work and push to trigger the next step:
 
 1. **Validate completion** using `/validate-step`
-   - Run: `/validate-step` in Copilot Chat
-   - Provide step number: `5-2`
+   - Run: `/validate-step 5-2` in Copilot Chat
    - Checks that all lint errors are fixed
    - Verifies tests still pass
 

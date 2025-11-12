@@ -469,7 +469,7 @@ Want to explore your new workflow system before moving forward? Try these:
    - Switch to `code-reviewer` mode and ask: `How should I approach fixing multiple lint errors?`
 
 2. **Test Prompt Auto-Switching:**
-   - In ANY mode, type `/validate-step` and provide step number `5-0`
+   - In ANY mode, type `/validate-step 5-0`
    - Watch it automatically switch to `code-reviewer` mode and check your success criteria!
 
 > 💡 **Skip this if you want**: The GitHub Actions workflow will validate everything automatically when you push. You'll know if anything is missing!
@@ -581,10 +581,9 @@ This repository includes **three powerful prompt files** that demonstrate agenti
 Run this prompt to have Copilot **read instructions from a GitHub Issue and execute them autonomously**:
 
 1. Open Copilot Chat in Agent mode
-2. Type `/execute-step` and press Enter
-3. Provide the GitHub Issue URL when prompted
-4. Watch as Copilot reads the instructions and executes each activity
-5. Review the results and proceed to validation
+2. Type `/execute-step 5-0` and press Enter
+3. Watch as Copilot reads the instructions and executes each activity
+4. Review the results and proceed to validation
 
 **Why this matters**: This showcases how AI can follow documented procedures autonomously, a key pattern in DevOps and automation workflows.
 
@@ -612,7 +611,7 @@ Run this prompt to have Copilot **analyze your changes and push to your specifie
 Run this prompt to **check if you've met all success criteria**:
 
 1. When you think you've completed a step
-2. Type `/validate-step` and provide the step number (e.g., "5-0")
+2. Type `/validate-step 5-0`
 3. Copilot will systematically check each criterion
 4. Get a clear ✅/❌ report with specific guidance for any issues
 
@@ -624,9 +623,9 @@ Run this prompt to **check if you've met all success criteria**:
 
 **After creating your workflow automation mode and prompt files** (Activities 4 & 5), try completing this entire step using ONLY the slash commands:
 
-1. **Read and execute**: `/execute-step` → provide this issue's URL
-2. **Validate completion**: `/validate-step` → provide "5-0"
-3. **Commit and push**: `/commit-and-push` → provide "feature/agentic-workflow"
+1. **Read and execute**: `/execute-step 5-0`
+2. **Validate completion**: `/validate-step 5-0`
+3. **Commit and push**: `/commit-and-push` → provide `feature/agentic-workflow`
    - 💡 The prompt will create this branch automatically if it doesn't exist!
 4. **Wait for automation**: GitHub Actions posts Step 5-1 to this issue
 
